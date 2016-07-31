@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="./jquery-2.2.4.min.js"></script>
+</head>
+<body>
+<input type="file" name="">
+<script type="text/javascript">
+$('input').on('change', function (e) {
+    var data = new FormData();
+    var files = e.target.files;
+
+    // data.stuff = files[0];
+    data.append('stuff', files[0]);
+    
+    // http://abandon.ie/notebook/simple-file-uploads-using-jquery-ajax
+    $.ajax({
+        url: 'http://127.0.0.7/upload/',
+        type: 'POST',
+        data: data,
+        cache: false,
+        dataType: 'json',
+        processData: false, // Don't process the files
+        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+        success: function(data, textStatus, jqXHR)
+        {
+            if(typeof data.error === 'undefined')
+            {
+                // Success so call function to process the form
+                submitForm(event, data);
+            }
+            else
+            {
+                // Handle errors here
+                console.log('ERRORS: ' + data.error);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+            // Handle errors here
+            console.log('ERRORS: ' + textStatus);
+            // STOP LOADING SPINNER
+        }
+    });        
+})
+
+</script>
+</body>
+</html>
