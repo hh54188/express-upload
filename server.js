@@ -19,6 +19,8 @@ var upload = multer({
 
 app.use(express.static('public'));
 app.post('/upload/',  upload.single('stuff'), function (req, res) {
-	res.send("Hello World");
+	res.send({
+		status: 200
+	});
 })
 app.listen(80);
