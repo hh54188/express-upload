@@ -13,12 +13,21 @@ var upload = multer({
 	storage: storage,
 	fileFilter: function (req, file, cb) {
 		console.log(file);
-		cb(null, false);
+		cb(null, true);
 	}
 })
 
 app.use(express.static('public'));
-app.post('/upload/',  upload.single('stuff'), function (req, res) {
+
+app.all('/*', function(req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+  	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  	next();
+});
+
+app.post('/upload/', upload.single('stuff'), function (req, res) {
+	console.log(res);
+	console.log(res.file);
 	res.send({
 		status: 200
 	});
