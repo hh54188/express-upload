@@ -1,6 +1,7 @@
 var express = require('express');
 var multer  = require('multer');
 var app = express();
+var fs = require('fs');
 
 var storage = multer.diskStorage({
 	destination: './uploads/',
@@ -12,7 +13,6 @@ var storage = multer.diskStorage({
 var upload = multer({
 	storage: storage,
 	fileFilter: function (req, file, cb) {
-		console.log(file);
 		cb(null, true);
 	}
 })
@@ -26,8 +26,8 @@ app.all('/*', function(req, res, next) {
 });
 
 app.post('/upload/', upload.single('stuff'), function (req, res) {
-	console.log(res);
-	console.log(res.file);
+	// fs.writeFileSync('./t.json', JSON.stringify(res));
+	console.log(res.req.file);
 	res.send({
 		status: 200
 	});
